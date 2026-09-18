@@ -53,7 +53,7 @@ Vision's deepstack multi-layer injection):
 4. Zero the ``<image>`` token slots in the text embeddings via a CPU-built
    0/1 keep-mask multiply (workaround #2 — ``aten::masked_fill_`` not yet on
    Spyre, torch-spyre#1004), then scatter ``image_features`` into those slots
-   via ``masked_scatter`` on Spyre (torch-spyre#2869).
+   via ``masked_scatter`` on Spyre (torch-spyre#3308).
 5. Run the full text decoder with the resulting ``inputs_embeds``; no
    further per-layer injection.
 
@@ -173,7 +173,7 @@ def _inject_image_features(hidden_states, features, vision_mask):
     """Scatter ``features`` into the image-token slots of ``hidden_states``.
 
     Replaces the old CPU additive-tensor workaround with a native
-    ``masked_scatter`` on Spyre (torch-spyre#2869).
+    ``masked_scatter`` on Spyre (torch-spyre#3308).
 
     The image-token slots are pre-zeroed by the keep-mask multiply in
     ``_prefill_forward`` (workaround #2, torch-spyre#1004 still open), so
