@@ -191,7 +191,9 @@ def _inject_image_features(hidden_states, features, vision_mask):
     mask_3d = vision_mask.unsqueeze(-1)  # [B, L, 1] on CPU
     return hidden_states.masked_scatter(
         mask_3d.to(hidden_states.device),
-        features.to(device=hidden_states.device, dtype=hidden_states.dtype),  # [n_image_tokens, hidden]
+        features.to(
+            device=hidden_states.device, dtype=hidden_states.dtype
+        ),  # [n_image_tokens, hidden]
     )
 
 
